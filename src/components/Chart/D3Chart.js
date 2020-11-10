@@ -1,11 +1,12 @@
 import * as d3 from 'd3'
+import { vi } from 'date-fns/locale';
 
 const MARGIN = { TOP: 40, BOTTOM: 300, LEFT: 70, RIGHT: 100 }
 const WIDTH = window.innerWidth - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = window.innerHeight - MARGIN.TOP - MARGIN.BOTTOM;
 
 class D3Chart {
-    constructor(element, data, updateName, from, to) {
+    constructor(element, data, updateName, from, to, legend) {
         let vis = this
         vis.from = from
         vis.to = to
@@ -14,6 +15,14 @@ class D3Chart {
         vis.make_x_gridlines = vis.make_x_gridlines.bind(this);
         vis.make_y_gridlines = vis.make_y_gridlines.bind(this);
         vis.filterData = vis.filterData.bind(this);
+        vis.dataReady = [
+            { id: 1, name: 'breakfast' , color: 'red'   },
+            { id: 2, name: 'lunch'     , color: 'blue'  },
+            { id: 3, name: 'afternoon' , color: 'green' },
+            { id: 4, name: 'dinner'    , color: 'orange'},
+            { id: 5, name: 'evening'   , color: 'purple'},
+            { id: 6, name: 'late night', color: 'teal'  },
+        ]
         
         vis.g = d3.select(element)
             .append('svg')
@@ -56,6 +65,15 @@ class D3Chart {
                 .tickSize(-HEIGHT)
                 .tickFormat('')
             )
+        
+
+        for(let i = 0; i < vis.dataReady.length; i++) {
+            vis.g.append('text')
+                .attr('x', (WIDTH / 100) + (i*75))
+                .attr('y', -10)
+                .attr('fill', vis.dataReady[i].color)
+                .text(vis.dataReady[i].name)
+        }
 
         // add the Y gridlines
         vis.g.append('g')
@@ -72,7 +90,7 @@ class D3Chart {
         let vis = this
 
         let filteredData = vis.filterData(data, from, to);
-        debugger
+
         vis.data = data
 
         let colors = {
