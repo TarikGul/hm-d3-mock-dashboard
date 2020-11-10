@@ -5,7 +5,7 @@ const MARGIN = { TOP: 40, BOTTOM: 300, LEFT: 70, RIGHT: 100 }
 const WIDTH = window.innerWidth - MARGIN.LEFT - MARGIN.RIGHT;
 const HEIGHT = window.innerHeight - MARGIN.TOP - MARGIN.BOTTOM;
 
-class D3Chart {
+class D3ScatterPlot {
     constructor(element, data, updateName, from, to, legend) {
         let vis = this
         vis.from = from
@@ -164,4 +164,4 @@ class D3Chart {
     }
 }
 
-export default D3Chart
+export default D3ScatterPlot;

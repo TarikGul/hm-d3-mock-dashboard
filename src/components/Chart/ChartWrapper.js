@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import D3Chart from './D3Chart';
+import D3ScatterPlot from './D3Chart';
 
 const ChartWrapper = ({ data, updateName, from, to }) => {
     const chartArea = useRef(null);
@@ -7,7 +7,7 @@ const ChartWrapper = ({ data, updateName, from, to }) => {
 
     useEffect(() => {
         if (!chart) {
-            setChart(new D3Chart(chartArea.current, data, updateName, from , to))
+            setChart(new D3ScatterPlot(chartArea.current, data, updateName, from , to))
         }
         else {
             chart.update(data, from, to)

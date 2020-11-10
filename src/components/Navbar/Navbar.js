@@ -42,16 +42,6 @@ const Navbar = () => {
                     <Typography className={classes.title} variant="h4" color="inherit">
                         Hellometer Dashboard
                     </Typography>
-                    <IconButton
-                        aria-label="account of current user"
-                        aria-controls="menu-appbar"
-                        aria-haspopup="true"
-                        edge='end'
-                        // onClick={handleMenu}
-                        color="inherit"
-                    >
-                        <AccountCircle />
-                    </IconButton>
                 </Toolbar>
             </AppBar>
         </div>
