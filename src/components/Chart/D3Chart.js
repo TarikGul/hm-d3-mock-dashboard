@@ -6,7 +6,6 @@ const HEIGHT = window.innerHeight - MARGIN.TOP - MARGIN.BOTTOM;
 
 class D3Chart {
     constructor(element, data, updateName, from, to) {
-        debugger
         let vis = this
         vis.from = from
         vis.to = to
@@ -14,6 +13,7 @@ class D3Chart {
         vis.sortedData = data.sort((a, b) => b.first_seen_utc - a.first_seen_utc)
         vis.make_x_gridlines = vis.make_x_gridlines.bind(this);
         vis.make_y_gridlines = vis.make_y_gridlines.bind(this);
+        vis.filterData = vis.filterData.bind(this);
         
         vis.g = d3.select(element)
             .append('svg')
@@ -70,6 +70,9 @@ class D3Chart {
 
     update(data, from, to) {
         let vis = this
+
+        let filteredData = vis.filterData(data, from, to);
+        debugger
         vis.data = data
 
         let colors = {
@@ -94,7 +97,7 @@ class D3Chart {
 
         // JOIN
         const circles = vis.g.selectAll('circle')
-            .data(vis.data, d => d.id)
+            .data(filteredData, d => d.id)
 
         // EXIT
         circles.exit()
@@ -117,6 +120,17 @@ class D3Chart {
             .transition(1000)
             .attr('cy', d => vis.y(d.tts))
 
+    }
+
+    filterData = (data, from, to) => {
+        let result = [];
+        for(let i = 0; i < data.length; i++) {
+            let time = data[i].first_seen_utc * 1000;
+            if (time < to.getTime() && time > from.getTime()) {
+                result.push(data[i])
+            }
+        }
+        return result;
     }
 
     // gridlines in x axis function
